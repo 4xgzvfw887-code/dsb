@@ -1,0 +1,58 @@
+# TradeForge AI – Standardkonfiguration
+# WICHTIG: Starte immer im Paper-Modus. Live-Trading erst nach Backtest + Paper-Validierung.
+
+mode: paper  # paper | live
+
+symbol: BTC/USDT
+timeframe: 1h
+exchange: binance
+
+# Startkapital (Paper) / Referenz für Positionsgröße
+initial_capital: 10000.0
+quote_currency: USDT
+
+risk:
+  risk_per_trade_pct: 1.0      # max. % des Kapitals Risiko pro Trade
+  max_position_pct: 20.0      # max. Positionsgröße am Kapital
+  max_open_positions: 3
+  stop_loss_pct: 2.0
+  take_profit_pct: 4.0
+  max_daily_loss_pct: 3.0     # Bot pausiert bei Tagesverlust
+  max_drawdown_pct: 15.0      # Bot stoppt bei Drawdown
+  trailing_stop_pct: 1.5
+
+strategy:
+  name: ensemble              # momentum | mean_reversion | ensemble
+  lookback: 50
+  rsi_period: 14
+  rsi_oversold: 30
+  rsi_overbought: 70
+  ema_fast: 12
+  ema_slow: 26
+  atr_period: 14
+  min_confidence: 0.35        # 0–1, nur Trades ab dieser Konfidenz
+
+ml:
+  enabled: true
+  retrain_every_bars: 100
+  prediction_horizon: 3       # Bars voraus
+
+execution:
+  poll_seconds: 30
+  fee_rate: 0.001             # 0.1% Round-Trip-Schätzung pro Seite
+  slippage_pct: 0.05
+
+data:
+  # demo = synthetische/yfinance Daten ohne API-Keys
+  # exchange = echte Marktdaten via ccxt (API-Keys für Live-Orders nötig)
+  source: demo
+  history_bars: 500
+
+storage:
+  db_path: data/tradeforge.db
+  log_dir: logs
+
+branding:
+  product_name: TradeForge AI
+  vendor_name: Your Brand
+  support_email: support@example.com
